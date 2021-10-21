@@ -664,7 +664,7 @@ def im2col(img, k_h, k_w, s_h, s_w):
         for c in range(out_w):
             c_start = c * s_w
             patch = img[:, r_start: r_start+k_h, c_start: c_start+k_w, :]
-            patch = patch.reshape(batch_sz, -1)
+            patch = patch.reshape(batch_sz, -1)   # B * (k * k * c)
             col[matrix_r+c::batch_span, :] = patch
     return col
 

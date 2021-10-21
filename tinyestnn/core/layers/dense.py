@@ -30,10 +30,12 @@ class Dense(Layer):
         return inputs @ self.params["w"] + self.params["b"]
 
     def backward(self, grad):
+        # dL/dW = X @ (dL / dY)
+        # dL/dB = 1
         self.grads["w"] = self.ctx["inputs"].T @ grad
         self.grads["b"] = np.sum(grad, axis=0)
 
-        return grad % self.params["w"].T
+        return grad @ self.params["w"].T
 
     @property
     def param_names(self):
