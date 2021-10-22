@@ -251,6 +251,15 @@ class ConvTranspose2D(Conv2D):
 
     @staticmethod
     def _insert_zeros(inputs, s_h, s_w, mode):
+        """
+        ?
+        SAME: in_h = (in_h + pad - k) / 1 + 1 --> pad = k - 1
+
+        in_h = (out_h + pad - k) / s + 1
+
+        （1）SAME: out_h = (in_h - 1) * s + k - pad = (in_h - 1) * s + 1
+        (2) VALID (pad = 0): out_h = (in_h - 1) * s + k - pad = (in_h - 1) * s + k
+        """
         batch_sz, in_h, in_w, in_c = inputs.shape
         if mode == "SAME":
             out_h = in_h * s_h

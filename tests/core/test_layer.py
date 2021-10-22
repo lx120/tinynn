@@ -42,18 +42,18 @@ def test_conv_transpose_2d():
 
 def test_conv_2d():
     batch_size = 1
-    input_ = np.random.randn(batch_size, 16, 16, 1)
+    input_ = np.random.randn(batch_size, 16, 16, 3)
 
     # test forward and backward correctness
     layer = tn.layer.Conv2D(
-        kernel=[4, 4, 1, 2], stride=[3, 3], padding="VALID")
+        kernel=[4, 4, 3, 2], stride=[3, 3], padding="VALID")
     output = layer.forward(input_)
     assert output.shape == (batch_size, 5, 5, 2)
     input_grads = layer.backward(output)
     assert input_grads.shape == input_.shape
 
     layer = tn.layer.Conv2D(
-        kernel=[4, 4, 1, 2], stride=[3, 3], padding="SAME")
+        kernel=[4, 4, 3, 2], stride=[3, 3], padding="SAME")
     output = layer.forward(input_)
     assert output.shape == (batch_size, 6, 6, 2)
     input_grads = layer.backward(output)
@@ -67,6 +67,7 @@ def test_max_pool_2d():
 
     layer = tn.layer.MaxPool2D(pool_size=[2, 2], stride=[2, 2])
     output = layer.forward(input_)
+    layer.backward(output)
     assert output.shape == (batch_size, 2, 2, channel)
 
     layer = tn.layer.MaxPool2D(pool_size=[4, 4], stride=[2, 2])

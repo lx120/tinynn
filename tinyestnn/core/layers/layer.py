@@ -93,7 +93,14 @@ def im2col(img, k_h, k_w, s_h, s_w):
 
 
 def get_padding_2d(in_shape, k_shape, mode):
-
+    """
+    H_out = (H_in + pads - K) // s + 1
+    if "VALID": pads = 0
+    if "SAME": pads = (h_out - 1) * s + k - H_in
+    s = 1 --> h_out === h_in
+    so, pads = (h_in - 1) * 1 + k - H_in
+    so, pads = (w - 1) + k - w
+    """
     def get_padding_1d(w, k):
         if mode == "SAME":
             pads = (w - 1) + k - w
